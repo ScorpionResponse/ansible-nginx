@@ -1,0 +1,61 @@
+# nginx.conf {{ inventory_hostname }}
+
+worker_processes {{ nginx_worker_processes }};
+
+user {{ nginx_user_name }};
+pid /var/run/nginx.pid;
+error_log {{ nginx_log_dir }}/error.log;
+
+events {
+    worker_connections 512;
+    accept_mutex off;
+}
+
+http {
+    include mime.types;
+    default_type application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log {{ nginx_log_dir }}/access.log;
+    sendfile on;
+
+    upstream app_server {
+        server unix:/var/run/gunicorn.sock fail_timeout=0;
+    }
+
+    server {
+        listen 80 default;
+        client_max_body_size 4G;
+        server_name {{ nginx_server_name }};
+        charset utf-8;
+
+        #listen   443;
+        #ssl    on;
+        #ssl_certificate    {{ nginx_application_dir }}/letsencrypt/cert.pem;
+        #ssl_certificate_key    {{ nginx_application_dir }}/letsencrypt/cert.key;
+
+        keepalive_timeout 5;
+
+        location /static {
+        alias {{ nginx_application_dir }}/static;
+        }
+
+        location /media {
+        alias {{ nginx_application_dir }}/media;
+        }
+
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header User-Agent $http_user_agent;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+
+            proxy_pass   http://app_server;
+        }
+    }
+}

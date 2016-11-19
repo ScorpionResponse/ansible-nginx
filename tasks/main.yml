@@ -1,2 +1,48 @@
 ---
-# tasks file for ansible-nginx
+- name: Add PPA for nginx
+  apt_repository:
+    repo: 'ppa:nginx/stable'
+    state: present
+    update_cache: yes
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Create Group for nginx
+  group:
+    name: "{{ nginx_group_name }}"
+    state: present
+
+- name: Create User for nginx
+  user:
+    name: "{{ nginx_user_name }}"
+    groups: "{{ nginx_group_name }}"
+    append: yes
+
+- name: Create nginx log directory
+  file:
+    path: "{{ nginx_log_dir }}"
+    state: directory
+    owner: "{{ nginx_user_name }}"
+    group: "{{ nginx_group_name }}"
+    mode: 0775
+
+- name: Create nginx configuration directory
+  file:
+    path: "{{ nginx_config_dir }}"
+    state: directory
+    owner: "{{ nginx_user_name }}"
+    group: "{{ nginx_group_name }}"
+    mode: 0775
+
+- name: Copy nginx configuration in place.
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_config_dir }}/nginx.conf"
+    owner: "{{ nginx_user_name }}"
+    group: "{{ nginx_group_name }}"
+    mode: 0644
+  notify:
+    - reload nginx

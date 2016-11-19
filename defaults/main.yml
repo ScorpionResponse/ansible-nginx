@@ -1,2 +1,11 @@
 ---
-# defaults file for ansible-nginx
+nginx_config_dir: "/etc/nginx"
+nginx_log_dir: "/var/log/nginx"
+
+nginx_user_name: nginx
+nginx_group_name: nginx
+
+nginx_worker_processes: 2
+
+nginx_server_name: localhost
+nginx_application_dir: /tmp

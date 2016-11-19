@@ -46,3 +46,12 @@
     mode: 0644
   notify:
     - reload nginx
+
+- name: Install nginx supervisord script
+  template: 
+    src: supervisor_nginx.conf.j2
+    dest: "{{ supervisord_config_dir }}/conf.d/nginx.conf" 
+    owner: "{{ supervisord_user_name }}"
+    group: "{{ supervisord_group_name }}"
+    mode: 0777 
+  notify: restart nginx

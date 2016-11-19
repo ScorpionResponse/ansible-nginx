@@ -8,5 +8,5 @@
   command: nginx -t -c {{ nginx_config_dir }}/nginx.conf
   changed_when: False
 
-- name: reload nginx configuration
+- name: reload nginx
   command: nginx -s reload -c {{ nginx_config_dir }}/nginx.conf

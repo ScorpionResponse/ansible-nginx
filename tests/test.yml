@@ -1,4 +1,20 @@
 ---
 - hosts: all
+  tasks:
+    - name: create basic wsgi.py script
+      blockinfile:
+        dest: /tmp/wsgi.py
+        create: yes
+        block: |
+          def application(env, start_response):
+              start_response('200 OK', [('Content-Type', 'text/html')])
+              return ["Hello!"]
+        mode: 0777
+
+- hosts: all
+  vars:
+    - gunicorn_project_dir: "/tmp"
+    - gunicorn_wsgi_application: "wsgi:application"
   roles:
+    - ScorpionResponse.gunicorn
     - role_under_test

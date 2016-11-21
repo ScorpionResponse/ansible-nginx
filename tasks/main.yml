@@ -32,7 +32,7 @@
 - name: Make sure nginx is not running
   service:
     name: nginx
-    state: absent
+    state: stopped
     enabled: no
 
 - name: Create Group for nginx

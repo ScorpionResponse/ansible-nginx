@@ -29,6 +29,12 @@
     name: nginx
     state: present
 
+- name: Make sure nginx is not running
+  service:
+    name: nginx
+    state: absent
+    enabled: no
+
 - name: Create Group for nginx
   group:
     name: "{{ nginx_group_name }}"

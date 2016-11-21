@@ -3,14 +3,12 @@
   apt_repository:
     repo: 'ppa:nginx/stable'
     state: present
-    update_cache: yes
   when: ansible_distribution == 'Ubuntu'
 
 - name: Add deb to apt-sources for nginx
   apt_repository:
     repo: '{{ item }}'
     state: present
-    update_cache: yes
   with_items:
     - 'deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx'
     - 'deb-src http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx'
@@ -21,6 +19,10 @@
     url: http://nginx.org/keys/nginx_signing.key 
     state: present
   when: ansible_distribution == 'Debian'
+
+- name: Run apt-get update (essentially)
+  apt:
+    update_cache: yes
 
 - name: Install nginx
   apt:

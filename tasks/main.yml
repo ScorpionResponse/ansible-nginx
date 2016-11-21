@@ -12,8 +12,14 @@
     state: present
     update_cache: yes
   with_items:
-    - 'deb http://nginx.org/packages/debian/ jessie nginx'
-    - 'deb-src http://nginx.org/packages/debian/ jessie nginx'
+    - 'deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx'
+    - 'deb-src http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx'
+  when: ansible_distribution == 'Debian'
+
+- name: Add signing key for nginx repo
+  apt_key: 
+    url: http://nginx.org/keys/nginx_signing.key 
+    state: present
   when: ansible_distribution == 'Debian'
 
 - name: Install nginx

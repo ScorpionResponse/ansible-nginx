@@ -38,12 +38,13 @@
 - name: Create Group for nginx
   group:
     name: "{{ nginx_group_name }}"
+    system: yes
     state: present
 
 - name: Create User for nginx
   user:
     name: "{{ nginx_user_name }}"
-    groups: "{{ nginx_group_name }}"
+    groups: "{{ nginx_group_name }},www-data"
     append: yes
 
 - name: Create nginx log directory
@@ -51,7 +52,7 @@
     path: "{{ nginx_log_dir }}"
     state: directory
     owner: "{{ nginx_user_name }}"
-    group: "{{ nginx_group_name }}"
+    group: "www-data"
     mode: 0775
 
 - name: Create nginx configuration directory

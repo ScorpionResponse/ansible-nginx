@@ -55,6 +55,17 @@
     group: "www-data"
     mode: 0775
 
+- name: Ensure log file permissions
+  file:
+    path: "{{ nginx_log_dir }}/{{ item }}"
+    state: touch
+    owner: "{{ nginx_user_name }}"
+    group: "www-data"
+    mode: 0664
+  with_items:
+    - "access.log"
+    - "error.log"
+
 - name: Create nginx configuration directory
   file:
     path: "{{ nginx_config_dir }}"

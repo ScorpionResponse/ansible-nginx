@@ -53,7 +53,7 @@ script:
 
   # Test results of role
   - nginx_status=$(mktemp)
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm curl "http://localhost/nginx_status" > ${nginx_status}'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm curl "http://localhost:8181/nginx_status" > ${nginx_status}'
   - grep 'Active' ${nginx_status}
   - cat ${nginx_status}
 

@@ -6,6 +6,7 @@ nginx_user_name: nginx
 nginx_group_name: nginx
 
 nginx_worker_processes: 2
+nginx_listen_port: 8181
 
 nginx_server_name: localhost
 nginx_application_dir: /tmp

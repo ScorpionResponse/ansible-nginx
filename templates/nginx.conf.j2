@@ -27,7 +27,7 @@ http {
     }
 
     server {
-        listen 80 default;
+        listen {{ nginx_listen_port }} default;
         client_max_body_size 4G;
         server_name {{ nginx_server_name }};
         charset utf-8;

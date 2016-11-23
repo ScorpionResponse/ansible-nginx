@@ -11,10 +11,21 @@
               return ["Hello!"]
         mode: 0777
 
-    - name: install curl (to test nginx_status)
+    - name: apt install curl (to test nginx_status)
       apt:
         pkg: curl
-        state: installed
+        state: present
+        update_cache: yes
+      when:
+        - ansible_pkg_mgr == 'apt'
+
+    - name: yum install curl (to test nginx_status)
+      yum:
+        name: curl
+        state: present
+        update_cache: yes
+      when:
+        - ansible_pkg_mgr == 'yum'
 
 - hosts: all
   vars:

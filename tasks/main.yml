@@ -29,6 +29,7 @@
   apt:
     name: nginx
     state: present
+    allow_unauthenticated: yes
 
 - name: Install curl
   apt:

@@ -16,16 +16,6 @@
         pkg: curl
         state: present
         update_cache: yes
-      when:
-        - ansible_pkg_mgr == 'apt'
-
-    - name: yum install curl (to test nginx_status)
-      yum:
-        name: curl
-        state: present
-        update_cache: yes
-      when:
-        - ansible_pkg_mgr == 'yum'
 
 - hosts: all
   vars:

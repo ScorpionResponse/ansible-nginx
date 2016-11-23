@@ -23,6 +23,7 @@
 - name: Run apt-get update (essentially)
   apt:
     update_cache: yes
+    cache_valid_time: 3600
 
 - name: Install nginx
   apt:
@@ -58,7 +59,7 @@
 - name: Ensure log file permissions
   file:
     path: "{{ nginx_log_dir }}/{{ item }}"
-    state: touch
+    state: file
     owner: "{{ nginx_user_name }}"
     group: "www-data"
     mode: 0664

@@ -23,7 +23,7 @@ http {
     sendfile on;
 
     upstream app_server {
-        server unix:/var/run/gunicorn.sock fail_timeout=0;
+        server unix:/var/run/gunicorn/gunicorn.socket fail_timeout=0;
     }
 
     server {

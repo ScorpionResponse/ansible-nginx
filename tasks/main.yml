@@ -30,6 +30,11 @@
     name: nginx
     state: present
 
+- name: Install curl
+  apt:
+    name: curl
+    state: present
+
 - name: Make sure nginx is not running
   service:
     name: nginx

@@ -11,13 +11,6 @@
               return ["Hello!"]
         mode: 0777
 
-    - name: apt install curl (to test nginx_status)
-      apt:
-        pkg: curl
-        state: present
-        update_cache: yes
-        cache_valid_time: 3600
-
 - hosts: all
   vars:
     - gunicorn_project_dir: "/tmp"

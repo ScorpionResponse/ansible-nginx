@@ -52,10 +52,8 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Test results of role
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm tail /var/log/nginx/*'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm tail /var/log/supervisord/*'
   - nginx_status=$(mktemp)
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm curl "http://localhost:8181/nginx_status" > ${nginx_status}'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm curl http://localhost:8181/nginx_status > ${nginx_status}'
   - grep 'Active' ${nginx_status}
   - cat ${nginx_status}
 

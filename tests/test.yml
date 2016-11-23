@@ -11,6 +11,11 @@
               return ["Hello!"]
         mode: 0777
 
+    - name: install curl (to test nginx_status)
+      apt:
+        pkg: curl
+        state: installed
+
 - hosts: all
   vars:
     - gunicorn_project_dir: "/tmp"

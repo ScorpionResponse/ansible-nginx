@@ -36,6 +36,14 @@
     name: curl
     state: present
 
+- name: Grap processlist
+  shell: ps aux
+  register: processlist
+
+- name: Print processlist
+  debug:
+    var: processlist
+
 - name: Make sure nginx is not running
   service:
     name: nginx

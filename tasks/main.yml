@@ -36,16 +36,6 @@
     name: curl
     state: present
 
-- name: Print ansible_service_mgr
-  debug:
-    var: ansible_service_mgr
-
-#- name: Make sure nginx is not running
-#  service:
-#    name: nginx
-#    state: stopped
-#    enabled: no
-
 - name: Create Group for nginx
   group:
     name: "{{ nginx_group_name }}"

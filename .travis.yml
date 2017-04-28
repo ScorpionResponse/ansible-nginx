@@ -1,19 +1,14 @@
 ---
+language: python
 sudo: required
 
 env:
-    #- distro: centos7
-    #init: /usr/lib/systemd/systemd
-    #run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  - distro: centos7
+    init: /usr/lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - distro: debian8 
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    #- distro: ubuntu1204
-    #init: /sbin/init
-    #run_opts: "--privileged"
-    #- distro: ubuntu1404
-    #init: /sbin/init
-    #run_opts: "--privileged"
   - distro: ubuntu1604
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
@@ -56,6 +51,10 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm curl http://localhost:8181/nginx_status > ${nginx_status}'
   - grep 'Active' ${nginx_status}
   - cat ${nginx_status}
+
+  # nginx format test
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install gixy'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm gixy /etc/nginx/nginx.conf'
 
 after_success:
   # Clean up.

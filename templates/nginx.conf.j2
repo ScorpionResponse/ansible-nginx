@@ -47,11 +47,20 @@ http {
         }
         
         location /static {
-        alias {{ nginx_application_dir }}/static;
+            alias {{ nginx_application_dir }}/static;
+            {% if nginx_hashed_static_files %}
+            if ($uri ~* ".*\.[a-f0-9]{12,}\.(css|js|png|jpg|jpeg|gif|swf|ico)" ) {
+                expires {{ nginx_hashed_static_files_expires }};
+            } else {
+                expires {{ nginx_static_files_expires }};
+            }
+            {% else %}
+            expires {{ nginx_static_files_expires }};
+            {% endif %}
         }
 
         location /media {
-        alias {{ nginx_application_dir }}/media;
+            alias {{ nginx_application_dir }}/media;
         }
 
         location / {

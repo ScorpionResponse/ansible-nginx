@@ -26,6 +26,10 @@ Role Variables
   nginx
 * `nginx_group_name`: The group to run nginx under. Default: nginx
 * `nginx_worker_processes`: The number of workers to instantiate. Default: 2
+* `nginx_static_files_expires`: Expires time for static files. Default: 10d.
+* `nginx_hashed_static_files`: Whether static files are hashed. Default: False
+* `nginx_hashed_static_files_expires`: Expiration for hashed static files.
+  Default: max
 
 Dependencies
 ------------

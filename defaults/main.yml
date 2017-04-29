@@ -10,3 +10,7 @@ nginx_listen_port: 8181
 
 nginx_server_name: localhost
 nginx_application_dir: /tmp
+
+nginx_static_files_expires: 10d
+nginx_hashed_static_files: False
+nginx_hashed_static_files_expires: max

@@ -51,8 +51,6 @@ http {
             {% if nginx_hashed_static_files %}
             if ($uri ~* ".*\.[a-f0-9]{12,}\.(css|js|png|jpg|jpeg|gif|swf|ico)" ) {
                 expires {{ nginx_hashed_static_files_expires }};
-            } else {
-                expires {{ nginx_static_files_expires }};
             }
             {% else %}
             expires {{ nginx_static_files_expires }};

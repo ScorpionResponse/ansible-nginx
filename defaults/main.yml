@@ -14,3 +14,6 @@ nginx_application_dir: /tmp
 nginx_static_files_expires: 10d
 nginx_hashed_static_files: False
 nginx_hashed_static_files_expires: max
+
+nginx_letsencrypt_on: False
+nginx_letsencrypt_dir: "/etc/letsencrypt/live/your_domain_name"

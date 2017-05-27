@@ -32,10 +32,12 @@ http {
         server_name {{ nginx_server_name }};
         charset utf-8;
 
-        #listen   443;
-        #ssl    on;
-        #ssl_certificate    {{ nginx_application_dir }}/letsencrypt/cert.pem;
-        #ssl_certificate_key    {{ nginx_application_dir }}/letsencrypt/cert.key;
+        {% if nginx_letsencrypt_on %}
+        listen   443;
+        ssl    on;
+        ssl_certificate    {{ nginx_letsencrypt_dir }}/cert.pem;
+        ssl_certificate_key    {{ nginx_letsencrypt_dir }}/cert.key;
+        {% endif %}
 
         keepalive_timeout 5;
 

@@ -26,17 +26,33 @@ http {
         server unix:/var/run/gunicorn/gunicorn.socket fail_timeout=0;
     }
 
+    {% if nginx_letsencrypt_on %}
+    server {
+        listen {{ nginx_listen_port }};
+        server_name {{ nginx_server_name }};
+        return 301 https://$server_name$request_uri;
+    }
+    server {
+    {% else %}
     server {
         listen {{ nginx_listen_port }} default;
-        client_max_body_size 4G;
         server_name {{ nginx_server_name }};
+    {% else %}
+
+        client_max_body_size 4G;
         charset utf-8;
 
         {% if nginx_letsencrypt_on %}
-        listen   443;
-        ssl    on;
-        ssl_certificate    {{ nginx_letsencrypt_dir }}/cert.pem;
-        ssl_certificate_key    {{ nginx_letsencrypt_dir }}/cert.key;
+        location /.well-known {
+            allow all;
+            alias /var/www/html/.well-known;
+        }
+
+        listen 443 default ssl;
+        ssl on;
+        ssl_certificate {{ nginx_letsencrypt_dir }}/fullchain.pem;
+        ssl_certificate_key {{ nginx_letsencrypt_dir }}/privkey.pem;
+        ssl_trusted_certificate {{ nginx_letsencrypt_dir }}/chain.pem;
         {% endif %}
 
         keepalive_timeout 5;

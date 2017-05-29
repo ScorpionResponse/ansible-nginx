@@ -54,7 +54,7 @@ script:
 
   # nginx format test
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install gixy'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm gixy /etc/nginx/nginx.conf'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm gixy --skips host_spoofing /etc/nginx/nginx.conf'
 
 after_success:
   # Clean up.
